@@ -30,7 +30,7 @@ class Tests(unittest.TestCase):
         self.assertTrue(issues)
 
     def test_clean(self):
-        out, log = clean(MESSY)
+        out, _log = clean(MESSY)
         lines = out.strip().splitlines()
         self.assertEqual(lines[0], "cust_name,e_mail,signup_date,phone,active")
         self.assertIn("Alice Smith,alice@x.com,2026-01-05,5551234567,true", lines[1])

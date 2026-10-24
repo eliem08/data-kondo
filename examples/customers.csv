@@ -1,0 +1,6 @@
+Cust. Name,E-mail ,Signup Date,Phone,Active?,Plan (old),Notes (old)
+ Alice  Smith,ALICE@EXAMPLE.COM,2026-01-05,(555) 123-4567,yes,pro,
+Bob Jones,bob@example.com,01/07/2026,555.987.6543,no,free,N/A
+Bob Jones,bob@example.com,01/07/2026,555.987.6543,no,free,null
+Carol White,N/A,Mar 03 2026,-,true,pro,
+Dan Brown,dan@example.org,2026/02/14,+1 555 222 3333,Y,team,

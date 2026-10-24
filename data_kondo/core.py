@@ -1,4 +1,5 @@
 """CSV profiling, agent-readiness scoring and cleaning."""
+
 from __future__ import annotations
 
 import csv
@@ -13,7 +14,16 @@ NULL_TOKENS = {"", "na", "n/a", "null", "none", "nil", "-", "--", "?", "nan", "#
 DATE_FORMATS = ["%Y-%m-%d", "%Y/%m/%d", "%m/%d/%Y", "%d/%m/%Y", "%d-%m-%Y", "%b %d %Y", "%d %b %Y", "%Y%m%d"]
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$")
 PHONE_RE = re.compile(r"^\+?[\d\s().-]{7,20}$")
-BOOL_MAP = {"true": "true", "yes": "true", "y": "true", "1": "true", "false": "false", "no": "false", "n": "false", "0": "false"}
+BOOL_MAP = {
+    "true": "true",
+    "yes": "true",
+    "y": "true",
+    "1": "true",
+    "false": "false",
+    "no": "false",
+    "n": "false",
+    "0": "false",
+}
 
 
 def snake(name: str) -> str:
@@ -69,18 +79,25 @@ def profile(text: str) -> dict:
         types = Counter(infer_type(v) for v in non_null)
         null_variants = {v for v in vals if is_null(v)}
         date_formats = {fmt for v in non_null if infer_type(v) == "date" for fmt in DATE_FORMATS if _fmt_ok(v, fmt)}
-        cols.append({
-            "name": name,
-            "type": types.most_common(1)[0][0] if types else "empty",
-            "type_mix": dict(types),
-            "null_rate": 1 - len(non_null) / len(vals) if vals else 1.0,
-            "null_variants": sorted(null_variants),
-            "distinct": len(set(non_null)),
-            "whitespace_issues": sum(1 for v in non_null if v != v.strip() or "  " in v),
-            "date_formats": len(date_formats),
-        })
+        cols.append(
+            {
+                "name": name,
+                "type": types.most_common(1)[0][0] if types else "empty",
+                "type_mix": dict(types),
+                "null_rate": 1 - len(non_null) / len(vals) if vals else 1.0,
+                "null_variants": sorted(null_variants),
+                "distinct": len(set(non_null)),
+                "whitespace_issues": sum(1 for v in non_null if v != v.strip() or "  " in v),
+                "date_formats": len(date_formats),
+            }
+        )
     dupes = len(rows) - len({tuple(r) for r in rows})
-    return {"rows": len(rows), "columns": cols, "duplicate_rows": dupes, "header_issues": [h for h in header if snake(h) != h]}
+    return {
+        "rows": len(rows),
+        "columns": cols,
+        "duplicate_rows": dupes,
+        "header_issues": [h for h in header if snake(h) != h],
+    }
 
 
 def _fmt_ok(v, fmt):
@@ -161,7 +178,9 @@ def clean(text: str, key: str | None = None) -> tuple[str, list[str]]:
         seen_keys.add(k)
         out_rows.append(new)
     if len(out_rows) != len(rows):
-        log.append(f"removed {len(rows) - len(out_rows)} duplicate rows" + (f" by {key}" if key_idx is not None else ""))
+        log.append(
+            f"removed {len(rows) - len(out_rows)} duplicate rows" + (f" by {key}" if key_idx is not None else "")
+        )
     log.append(f"normalised {changed} cell values")
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator="\n")

@@ -25,7 +25,7 @@ def main(argv=None):
         if a.json:
             print(json.dumps({**prof, "readiness": score, "issues": issues}, indent=2))
             return 0
-        print(f"{prof['rows']} rows, {len(prof['columns'])} columns — agent-readiness {score}/100")
+        print(f"{prof['rows']} rows, {len(prof['columns'])} columns - agent-readiness {score}/100")
         for col in prof["columns"]:
             print(f"  {col['name']:<24} {col['type']:<6} nulls {col['null_rate']:.0%}  distinct {col['distinct']}")
         for i in issues:
@@ -37,7 +37,7 @@ def main(argv=None):
     before, _ = readiness(profile(text))
     after, _ = readiness(profile(out))
     for line in log:
-        print(f"  ✓ {line}")
+        print(f"  + {line}")
     print(f"agent-readiness {before} -> {after}. Thank the old mess and let it go.")
     return 0
 
