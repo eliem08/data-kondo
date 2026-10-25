@@ -21,6 +21,18 @@ data-kondo profile examples/customers.csv
 data-kondo clean examples/customers.csv clean.csv --key e_mail
 ```
 
+## Web app and API
+
+Every command is also a JSON API endpoint and a browser form, served by the built-in web app.
+
+```bash
+data-kondo-web --port 8000          # then open http://127.0.0.1:8000
+docker build -t data-kondo . && docker run -p 8000:8000 -v data-kondo-data:/data data-kondo
+```
+
+Endpoints: `POST /api/profile`, `POST /api/clean`, plus `GET /healthz` and `GET /api/spec` (machine-readable field list).
+Files are sent as `{"name": ..., "content": ...}`, folders as `{"files": [...]}` or a base64 zip.
+
 ## Pricing
 
 Every plan starts with a 14-day free trial. Prices in USD, billed monthly unless noted.

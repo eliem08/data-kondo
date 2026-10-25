@@ -7,7 +7,7 @@ import sys
 from .core import clean, profile, readiness
 
 
-def _run(argv=None):
+def build_parser():
     ap = argparse.ArgumentParser(prog="data-kondo", description="Tidy CSV data so agents can use it.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("profile")
@@ -17,6 +17,11 @@ def _run(argv=None):
     c.add_argument("csv")
     c.add_argument("out")
     c.add_argument("--key", help="dedupe on this (cleaned) column name")
+    return ap
+
+
+def _run(argv=None):
+    ap = build_parser()
     a = ap.parse_args(argv)
 
     with open(a.csv, encoding="utf-8-sig", newline="") as fh:

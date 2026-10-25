@@ -23,6 +23,7 @@ dev = ["ruff>=0.6"]
 
 [project.scripts]
 data-kondo = "data_kondo.__main__:main"
+data-kondo-web = "data_kondo.web:main"
 
 [project.urls]
 Repository = "https://github.com/eliem08/data-kondo"
