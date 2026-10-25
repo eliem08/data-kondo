@@ -46,7 +46,7 @@ Every plan starts with a 14-day free trial. Prices in USD, billed monthly unless
 | **Pro** | $79 per month | Unlimited file size; Batch cleaning; Change-log export |
 | **Team** | $249 per month | 5 seats; Shared cleaning rules; Priority support |
 
-To start a trial or buy a plan, email **sales@YOUR-DOMAIN.com**.
+To start a trial or buy a plan, [request access](https://github.com/eliem08/data-kondo/issues/new?title=Data%20Kondo%20trial&labels=sales).
 
 ## Licence
 
