@@ -1,11 +1,13 @@
 import argparse
+import csv
 import json
+import os
 import sys
 
 from .core import clean, profile, readiness
 
 
-def main(argv=None):
+def _run(argv=None):
     ap = argparse.ArgumentParser(prog="data-kondo", description="Tidy CSV data so agents can use it.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("profile")
@@ -40,6 +42,23 @@ def main(argv=None):
         print(f"  + {line}")
     print(f"agent-readiness {before} -> {after}. Thank the old mess and let it go.")
     return 0
+
+
+def main(argv=None):
+    """Run the CLI; a bad input file or argument exits 2 with a one-line error instead of a traceback.
+
+    Set AGENT_ECONOMY_DEBUG=1 to see the full traceback.
+    """
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(errors="replace")
+    try:
+        return _run(argv)
+    except (OSError, ValueError, KeyError, csv.Error) as e:
+        if os.environ.get("AGENT_ECONOMY_DEBUG"):
+            raise
+        msg = e.args[0] if isinstance(e, KeyError) and e.args else e
+        print(f"error: {msg}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":
