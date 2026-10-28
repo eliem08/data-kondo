@@ -47,7 +47,7 @@ To sell self-serve, set four variables and point a Stripe webhook at `https://<y
 |---|---|
 | `STRIPE_SECRET_KEY` | `sk_live_...` |
 | `STRIPE_WEBHOOK_SECRET` | `whsec_...` |
-| `STRIPE_PRICES` | `team=price_123,business=price_456` |
+| `STRIPE_PRICES` | `starter=price_123,pro=price_456,team=price_789` |
 | `PUBLIC_URL` | `https://data-kondo.example.com` |
 
 Buyers pick a plan on `/pricing`, pay on Stripe Checkout and see their API key once on the success page. Cancelling the subscription revokes the key. A selling server always requires a key.
@@ -58,11 +58,15 @@ Every plan starts with a 14-day free trial. Prices in USD, billed monthly unless
 
 | Plan | Price | Includes |
 |---|---|---|
-| **Starter** | $19 per month | Unlimited profiling; Readiness score; Clean files up to 50 MB |
-| **Pro** | $79 per month | Unlimited file size; Batch cleaning; Change-log export |
-| **Team** | $249 per month | 5 seats; Shared cleaning rules; Priority support |
+| **Starter** | $19 per month | Unlimited profiling; Readiness score; Clean files |
+| **Pro** | $79 per month | Everything in Starter |
+| **Team** | $249 per month | Everything in Starter; Priority support |
+
+All plans unlock the same software in this release; higher tiers add licence scope and support, not gated features. API uploads are capped at 5 MB per request on every plan; the CLI has no cap. Seats, shared cleaning rules, file-size tiers, and batch limits are not enforced — see Roadmap.
 
 To start a trial or buy a plan, [request access](https://github.com/eliem08/data-kondo/issues/new?title=Data%20Kondo%20trial&labels=sales).
+
+See `.env.example` for the full list of server variables (names only, no values).
 
 ## Licence
 
@@ -97,6 +101,8 @@ data-kondo clean customers.csv customers.clean.csv --key email
 - Entity resolution across files (same customer, different spellings)
 - Auto-generated data dictionary + `schema.json` agents can read
 - Scheduled tidy jobs on Google Drive / SharePoint
+- Seats, shared cleaning rules, and plan-gated file-size / batch limits
+- Connectors (Drive, SharePoint, databases) and the production architecture in ARCHITECTURE.md §5
 
 ## Development
 
