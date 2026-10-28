@@ -13,7 +13,7 @@ flowchart LR
   Profiler --> Cleaner
   Cleaner --> Clean[(Clean copy)]
   Cleaner --> Log[Change log]
-  Clean --> Dict[schema.json / data dictionary] --> Agents
+  Clean --> Dict[schema.json / data dictionary — roadmap] --> Agents
 ```
 
 ## 3. Components
@@ -36,10 +36,12 @@ flowchart LR
   *Trade-off:* the order is locale-sensitive, so the product infers it per column from values with
   a day above 12.
 
-## 5. Production architecture
+## 5. Future production architecture (not shipped)
 - Workers process files in a streaming fashion with chunked profiling (reservoir sample for
   distinct counts, exact counts for nulls). Results go to Postgres and cleaned files to object storage.
 - Connector framework: OAuth per source, a change cursor per table, and an idempotent re-run per version.
+- Note: none of the above is in this release — the shipped product profiles and cleans CSVs
+  locally and over the built-in web app. Connectors, Postgres, and object storage are roadmap.
 
 ## 6. Security
 Data stays in the customer's tenant bucket, and logs record cell counts, never cell values.
