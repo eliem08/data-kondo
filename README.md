@@ -54,15 +54,18 @@ Buyers pick a plan on `/pricing`, pay on Stripe Checkout and see their API key o
 
 ## Pricing
 
-Every plan starts with a 14-day free trial. Prices in USD, billed monthly unless noted.
+Monthly plans start with a 14-day free trial. Prices in USD, billed monthly unless noted.
 
 | Plan | Price | Includes |
 |---|---|---|
-| **Starter** | $19 per month | Unlimited profiling; Readiness score; Clean files up to 50 MB |
-| **Pro** | $79 per month | Unlimited file size; Batch cleaning; Change-log export |
-| **Team** | $249 per month | 5 seats; Shared cleaning rules; Priority support |
+| **Starter** | $19 per month | Unlimited profiling; Readiness score; CSV cleaning |
+| **Pro** | $79 per month | Everything in Starter; Hosted API and web app; JSON profile export |
+| **Team** | $249 per month | 5 seats; Priority support |
 
 To start a trial or buy a plan, [request access](https://github.com/eliem08/data-kondo/issues/new?title=Data%20Kondo%20trial&labels=sales).
+
+Plan note: every plan runs the same software, and every API key unlocks all of it. Seat, agent and volume
+limits are licence terms; the code does not enforce them. Support, SLA and done-for-you items are services.
 
 ## Licence
 
