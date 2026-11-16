@@ -76,4 +76,19 @@ SPEC = {
             "id": "clean",
         },
     ],
+    "plans": [
+        {
+            "key": "starter",
+            "name": "Starter",
+            "price": "$19 per month",
+            "features": ["Unlimited profiling", "Readiness score", "CSV cleaning"],
+        },
+        {
+            "key": "pro",
+            "name": "Pro",
+            "price": "$79 per month",
+            "features": ["Everything in Starter", "Hosted API and web app", "JSON profile export"],
+        },
+        {"key": "team", "name": "Team", "price": "$249 per month", "features": ["5 seats", "Priority support"]},
+    ],
 }
