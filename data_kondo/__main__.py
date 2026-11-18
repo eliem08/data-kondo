@@ -5,17 +5,22 @@ import os
 import sys
 
 from .core import clean, profile, readiness
+from .formats import load_table, write_table
 
 
 def build_parser():
-    ap = argparse.ArgumentParser(prog="data-kondo", description="Tidy CSV data so agents can use it.")
+    ap = argparse.ArgumentParser(
+        prog="data-kondo", description="Tidy tables (CSV, TSV, JSON, JSONL, Excel) so agents can use them."
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("profile")
-    p.add_argument("csv")
+    p.add_argument("csv", metavar="table", help="CSV, TSV, JSON, JSONL or .xlsx file")
+    p.add_argument("--sheet", help="Excel sheet name (default: the first)")
     p.add_argument("--json", action="store_true")
     c = sub.add_parser("clean")
-    c.add_argument("csv")
-    c.add_argument("out")
+    c.add_argument("csv", metavar="table", help="CSV, TSV, JSON, JSONL or .xlsx file")
+    c.add_argument("out", help="output file; .csv, .tsv, .json or .jsonl")
+    c.add_argument("--sheet", help="Excel sheet name (default: the first)")
     c.add_argument("--key", help="dedupe on this (cleaned) column name")
     return ap
 
@@ -24,8 +29,7 @@ def _run(argv=None):
     ap = build_parser()
     a = ap.parse_args(argv)
 
-    with open(a.csv, encoding="utf-8-sig", newline="") as fh:
-        text = fh.read()
+    text = load_table(a.csv, a.sheet)
     if a.cmd == "profile":
         prof = profile(text)
         score, issues = readiness(prof)
@@ -39,8 +43,7 @@ def _run(argv=None):
             print(f"  - {i}")
         return 0
     out, log = clean(text, a.key)
-    with open(a.out, "w", encoding="utf-8", newline="") as fh:
-        fh.write(out)
+    write_table(a.out, out)
     before, _ = readiness(profile(text))
     after, _ = readiness(profile(out))
     for line in log:

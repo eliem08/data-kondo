@@ -168,7 +168,9 @@ def clean(text: str, key: str | None = None) -> tuple[str, list[str]]:
             log.append(f"renamed {header[i]!r} -> {h!r}")
         new_header.append(h)
     out_rows, seen_keys, changed = [], set(), 0
-    key_idx = new_header.index(key) if key and key in new_header else None
+    if key and key not in new_header:
+        raise ValueError(f"--key {key!r} is not a column after cleaning; columns: {new_header}")
+    key_idx = new_header.index(key) if key else None
     for r in rows:
         new = [_clean_value(r[i], prof["columns"][i]["type"]) for i in keep]
         changed += sum(1 for i, nv in zip(keep, new) if nv != r[i])

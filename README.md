@@ -7,9 +7,9 @@
 
 **Who it's for:** Ops and data teams preparing spreadsheets and exports for AI projects.
 
-**The problem:** Agents choke on inconsistent CSVs: mixed dates, duplicate rows, junk columns and broken encodings.
+**The problem:** Agents choke on inconsistent spreadsheets and exports: mixed dates, duplicate rows, junk columns and broken encodings.
 
-**What you get:** Profile any CSV, get an agent-readiness score, and run a deterministic cleaner that logs every change it makes.
+**What you get:** Profile any CSV, TSV, JSON or Excel file, get an agent-readiness score, and run a deterministic cleaner that logs every change it makes.
 
 ## Quickstart
 
@@ -59,7 +59,7 @@ Monthly plans start with a 14-day free trial. Prices in USD, billed monthly unle
 
 | Plan | Price | Includes |
 |---|---|---|
-| **Starter** | $19 per month | Unlimited profiling; Readiness score; CSV cleaning |
+| **Starter** | $19 per month | Unlimited profiling; Readiness score; CSV, TSV, JSON and Excel cleaning |
 | **Pro** | $79 per month | Everything in Starter; Hosted API and web app; JSON profile export |
 | **Team** | $249 per month | 5 seats; Priority support |
 
@@ -86,14 +86,20 @@ Proprietary. Copyright (c) 2026 eliem08. All rights reserved. Use requires a pai
   - ISO-8601 dates from 8 common formats
   - lowercase emails, digits-only phones, `true/false` booleans
   - drop fully empty columns, drop exact-duplicate rows (or by `--key`)
-- Writes a cleaned CSV plus a change log ("sparks joy" report)
+- **Reads** CSV (comma, semicolon, tab or pipe, detected automatically), TSV, JSON (a list of objects, or one
+  wrapped in `{"data": [...]}`), JSONL and Excel `.xlsx` (first sheet, or `--sheet NAME`; date cells come out as
+  ISO dates). No extra libraries are needed.
+- **Writes** the cleaned table as CSV, TSV, JSON or JSONL, chosen by the output file name, plus a change log
+  ("sparks joy" report)
 
 ## Quickstart
 
 ```bash
 pip install -e .
 data-kondo profile customers.csv
-data-kondo clean customers.csv customers.clean.csv --key email
+data-kondo clean customers.csv customers.clean.csv --key e_mail
+data-kondo profile examples/customers.xlsx --sheet Customers
+data-kondo clean export.jsonl clean.json            # JSON lines in, a JSON array out
 ```
 
 ## Roadmap
