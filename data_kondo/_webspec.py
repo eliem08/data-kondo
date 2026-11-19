@@ -103,7 +103,7 @@ SPEC = {
             "key": "starter",
             "name": "Starter",
             "price": "$19 per month",
-            "features": ["Unlimited profiling", "Readiness score", "CSV cleaning"],
+            "features": ["Unlimited profiling", "Readiness score", "CSV, TSV, JSON and Excel cleaning"],
         },
         {
             "key": "pro",
